@@ -6,3 +6,9 @@ body,
   margin: 0;
   padding: 0;
 }
+.el-breadcrumb{
+  margin-bottom: 10px;
+}
+.el-table{
+  margin-top: 10px;
+}

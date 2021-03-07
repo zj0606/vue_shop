@@ -4,10 +4,13 @@ import router from './router'
 import store from './store'
 import './plugins/element'
 import './assets/css/global.css'
-import { get, post } from './axios/index'
+import './assets/fonts/iconfont.css'
+import { get, post, put, deletefn } from './axios/index'
 Vue.config.productionTip = false
 Vue.prototype.$get = get
 Vue.prototype.$post = post
+Vue.prototype.$put = put
+Vue.prototype.$delete = deletefn
 new Vue({
   router,
   store,

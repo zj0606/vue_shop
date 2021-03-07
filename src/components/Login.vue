@@ -21,8 +21,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-  name: 'Login',
+  name: 'login',
   // 登录表单的数据对象
   data () {
     return {
@@ -55,13 +56,17 @@ export default {
           this.$message.success('请求成功')
           const token = data.token
           // 后续优化放到store 中
+          this['login/loginAction'](token)
           window.sessionStorage.setItem('logintoken', token)
           this.$router.push('home')
         } else {
           this.$message.error('登录失败')
         }
       })
-    }
+    },
+    ...mapActions([
+      'login/loginAction'
+    ])
   }
 }
 </script>
