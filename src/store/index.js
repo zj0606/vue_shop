@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import menu from './modules/menus'
 import users from './modules/users'
+import rights from './modules/rights'
+import roles from './modules/roles'
 
 Vue.use(Vuex)
 
@@ -27,7 +29,9 @@ export default new Vuex.Store({
       },
       modules: {
         menu,
-        users
+        users,
+        rights,
+        roles
       }
     }
   }

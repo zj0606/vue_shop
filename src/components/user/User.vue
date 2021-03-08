@@ -37,7 +37,7 @@
             <el-button type="danger" size="mini" icon="el-icon-delete" circle @click="deleteUserInfo(scope.row.id)"></el-button>
             <!-- 分配权限 -->
             <el-tooltip :enterable="false" effect="dark" content="分配权限" placement="top">
-              <el-button type="warning" size="mini" icon="el-icon-setting" circle></el-button>
+              <el-button type="warning" size="mini" icon="el-icon-setting" circle @click="setUserRoles(scope.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -109,11 +109,37 @@
         </span>
       </template>
     </Dialog>
+    <!-- 分配角色对话框 -->
+    <el-dialog
+      title="分配角色"
+      :visible.sync="setRolesDialogVisible"
+      width="30%"
+      @close="setRolesDialogClose"
+      >
+      <div>
+        <p>当前用户：{{ userInfo.username }}</p>
+        <p>当前角色：{{ userInfo.role_name }}</p>
+        <p>可分配的角色：
+          <el-select v-model="setRolesVal" placeholder="请选择">
+            <el-option
+              v-for="item in rolesList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRolesDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="setRolesDialogConfirm">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
-import Bread from '@/assets/publicCompents/Bread.vue'
-import Dialog from '@/assets/publicCompents/Dialog.vue'
+import Bread from '@/assets/publicComponents/Bread.vue'
+import Dialog from '@/assets/publicComponents/Dialog.vue'
 import { mapState, mapActions } from 'vuex'
 export default {
   data () {
@@ -174,7 +200,15 @@ export default {
           { required: true, message: '请输入正确的手机号', trriger: 'blur' },
           { validator: mobileRule, trriger: 'blur' }
         ]
-      }
+      },
+      // 分配角色的显示隐藏
+      setRolesDialogVisible: false,
+      // 角色列表数据
+      rolesList: [],
+      // 当前角色信息
+      userInfo: {},
+      // 选中的角色信息
+      setRolesVal: ''
     }
   },
   components: { Bread, Dialog },
@@ -290,6 +324,32 @@ export default {
         })
         this.getUser()
       }
+    },
+    // 分配角色
+    async setUserRoles (userInfo) {
+      this.userInfo = userInfo
+      const { data, meta } = await this.$get('roles')
+      if (meta.status !== 200) {
+        return this.$message.error('获取角色失败')
+      }
+      this.rolesList = data
+      this.setRolesDialogVisible = true
+    },
+    // 关闭分配权限对话框
+    setRolesDialogClose () {
+      this.setRolesVal = ''
+    },
+    // 提交分配角色
+    async setRolesDialogConfirm () {
+      const { meta } = await this.$put(`users/${this.userInfo.id}/role`, {
+        rid: this.setRolesVal
+      })
+      if (meta.status !== 200) {
+        return this.$message.error('提交角色信息失败')
+      }
+      this.$message.success('分配角色成功')
+      this.getUser()
+      this.setRolesDialogVisible = false
     }
   },
   created () {
