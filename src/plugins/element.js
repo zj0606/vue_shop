@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import {
   Form, FormItem, Input, Button, Message, Container, Header, Aside, Main, Menu, MenuItem, MenuItemGroup, Submenu, Breadcrumb, BreadcrumbItem, Card, Row, Col, Table, TableColumn, Switch, Tooltip, Pagination,
-  Dialog, MessageBox, Tag, Tree, Select, Option
+  Dialog, MessageBox, Tag, Tree, Select, Option, Cascader
 } from 'element-ui'
 
 Vue.component(Form.name, Form)
@@ -33,5 +33,6 @@ Vue.use(Tag)
 Vue.use(Tree)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Cascader)
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
