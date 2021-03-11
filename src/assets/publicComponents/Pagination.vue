@@ -15,8 +15,6 @@ export default {
     return {}
   },
   props: {
-    handleSizeChange: Function,
-    handleCurrentChange: Function,
     cPage: {
       type: Number,
       default: 1
@@ -35,6 +33,14 @@ export default {
     total: {
       type: Number,
       default: 1
+    }
+  },
+  methods: {
+    handleSizeChange (val) {
+      this.$emit('handleSizeChange', val)
+    },
+    handleCurrentChange (val) {
+      this.$emit('handleCurrentChange', val)
     }
   }
 }
