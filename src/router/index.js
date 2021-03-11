@@ -13,6 +13,7 @@ import AddGoods from '../components/goods/AddGoods.vue'
 import Order from '../components/orders/Order.vue'
 import Reports from '../components/reports/Reports.vue'
 import store from '../store'
+
 Vue.use(VueRouter)
 
 const routes = [
